@@ -9,8 +9,9 @@ public class MainManager : MonoBehaviour
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
-
+    
     public Text ScoreText;
+    public Text ScoreText1;
     public GameObject GameOverText;
     
     private bool m_Started = false;
@@ -24,7 +25,7 @@ public class MainManager : MonoBehaviour
     {
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        
+        ScoreText1.text = $"Best Score : {MainMenu.Instance.Highscore}";
         int[] pointCountArray = new [] {1,1,2,2,5,5};
         for (int i = 0; i < LineCount; ++i)
         {
@@ -66,11 +67,25 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
+        MainMenu.Instance.Highscore =m_Points.ToString();
     }
 
     public void GameOver()
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+
+    }
+
+    
+    public void highscoresetup(int score)
+    {
+        MainMenu.Instance.Highscore = score.ToString();
+        MainMenu.Instance.saveplayerdata();
+    }
+    public void changescreen(int sceenenum)
+    {
+        SceneManager.LoadScene(sceenenum);
+        MainMenu.Instance.saveplayerdata();
     }
 }
